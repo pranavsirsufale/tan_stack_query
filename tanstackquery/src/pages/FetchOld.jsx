@@ -22,12 +22,16 @@ export const FetchOld = () =>{
     // },[])
 
 
-    const{ data } = useQuery({
+    const{ data , isLoading, isError , error } = useQuery({
         queryKey : ['posts'],     //? useState
         queryFn : getPostData,    //? useEffect
     })
 
     console.log(data);
+
+    if ( isLoading ) return <p> Loading... </p>
+    if ( isError ) return <p> Error :  { error.message || 'Something Went Wrong' } </p>
+    
     
 
 
