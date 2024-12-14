@@ -10,6 +10,7 @@ export const FetchOld = () =>{
         try {   
             const res = await fetchPosts()
             console.log(res)
+            res.status === 200 ? setPosts(res.data) :  []
         } catch (error) {
             console.log(error)
         }
@@ -22,7 +23,19 @@ export const FetchOld = () =>{
 
     return (
         <h1>
-            Hellow FetchOld
+            <ul>
+                {
+                    posts.map((curruentElem,index)=> {
+                      const {id , title ,body} = curruentElem
+
+                     return (
+                        <li key={id} >
+                            { body}
+                        </li>
+                     )
+                    })
+                }
+            </ul>
         </h1>
     )
 

@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { MainLayout } from './components/Layout/MainLayout';
 import { Home,FetchData,FetchRQ } from './pages';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { FetchOld } from './pages/FetchOld';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path : '/rq',
         element :  <FetchRQ/>
+      },
+      {
+        path : '/data/fetch',
+        element : <FetchOld/>
       }
     ]
   }
