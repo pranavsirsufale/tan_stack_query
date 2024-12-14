@@ -3,9 +3,9 @@
 const Footer = () => {
     return (
         <>
-        <h1>
-            Footer
-        </h1>
+        <footer>
+            <p>Copyright @Pranav Sirsufale</p>
+        </footer>
         </>
     )
 }
