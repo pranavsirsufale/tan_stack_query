@@ -1,7 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { MainLayout } from './components/Layout/MainLayout';
-import { Home } from './pages/Home'
-import { FetchData } from './pages/FetchData'
+import { Home,FetchData,FetchRQ } from './pages';
 
 const router = createBrowserRouter([
   {
