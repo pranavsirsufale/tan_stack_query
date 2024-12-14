@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { MainLayout } from './components/Layout/MainLayout';
 import { Home,FetchData,FetchRQ } from './pages';
 
@@ -27,9 +27,9 @@ const router = createBrowserRouter([
 function App() {
 
   return (
-    <>
+    <RouterProvider router={router} >
       <h1>Hi there !I'm Pranav Sirsufale </h1>
-    </>
+    </RouterProvider>
   )
 }
 
