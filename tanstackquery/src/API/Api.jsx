@@ -7,7 +7,14 @@ const api = axios.create({
 // fetch the data
 
 export const fetchPosts = () => {
-    return api.get('/posts')
+    
+        return api.get('/posts')
+   
+}
+
+//? Fetch individaul data 
+export const fetchIndividualData = (id) => {
+        return api.get(`/posts/${id}`)
 }
 
 

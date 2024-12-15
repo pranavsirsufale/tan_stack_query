@@ -28,7 +28,7 @@ const router = createBrowserRouter([
         element : <FetchOld/>
       },
       {
-        path : '/data/using/rq:id',
+        path : '/data/using/rq/:id',
         element : <FetchIndu/>
       }
     ]

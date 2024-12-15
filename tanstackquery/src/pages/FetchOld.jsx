@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { fetchPosts } from "../API/Api"
 import { useQuery } from "@tanstack/react-query"
-
+import { NavLink } from "react-router-dom"
 
 export const FetchOld = () =>{
    
@@ -38,9 +38,13 @@ export const FetchOld = () =>{
                       const {id , title ,body} = curruentElem
 
                      return (
+                        <NavLink to={`/data/using/rq/${id}`} >
+
                         <li key={id} >
                             { body}
                         </li>
+
+                        </NavLink>
                      )
                     })
                 }
