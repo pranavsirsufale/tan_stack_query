@@ -7,7 +7,14 @@ const Header = () => {
         <>
         <section className='header'>
             <nav>
-                <p> Hii! It's Pran</p>
+                <p> 
+                    <NavLink
+                        to={'/'}
+                    >
+
+                    Hii! It's Pran
+                    </NavLink>
+                    </p>
 
                 <p> 
 
@@ -20,9 +27,21 @@ const Header = () => {
 
                         </NavLink>
                         </li>
-                    <li>Old Data</li>
                     <li>
-                        <NavLink to={'/data/using/rq'} >
+                        <NavLink 
+                        to={'/data/using/old'}
+                        viewTransition={true}
+                        >
+
+                        Old Data
+                        </NavLink>
+                        </li>
+                    <li>
+                        <NavLink to={'/data/using/rq'} 
+                        viewTransition={true}
+                        aria-valuemin={true}
+                        
+                        >
 
                         React Query Fetch Data 
 
