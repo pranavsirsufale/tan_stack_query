@@ -25,6 +25,7 @@ export const FetchOld = () =>{
     const{ data , isLoading, isError , error } = useQuery({
         queryKey : ['posts'],     //? useState
         queryFn : getPostData,    //? useEffect
+        staleTime: 10000
     })
 
     console.log(data);

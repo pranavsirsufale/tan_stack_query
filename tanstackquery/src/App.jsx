@@ -36,7 +36,6 @@ function App() {
   return (
     <QueryClientProvider client={queryClient} >
     <RouterProvider router={router} >
-      <h1>Hi there !I'm Pranav Sirsufale </h1>
     </RouterProvider>
     <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
