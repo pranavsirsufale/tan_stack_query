@@ -20,11 +20,11 @@ const router = createBrowserRouter([
         element : <FetchData/>
       },
       {
-        path : '/rq',
+        path : '/data/using/old',
         element :  <FetchRQ/>
       },
       {
-        path : '/data/fetch',
+        path : '/data/using/rq',
         element : <FetchOld/>
       }
     ]
@@ -32,9 +32,7 @@ const router = createBrowserRouter([
 ])
 
 function App() {
-
   const queryClient = new QueryClient()
-
   return (
     <QueryClientProvider client={queryClient} >
     <RouterProvider router={router} >
@@ -44,5 +42,6 @@ function App() {
     </QueryClientProvider>
   )
 }
+
 
 export default App
