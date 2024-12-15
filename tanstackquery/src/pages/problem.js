@@ -91,3 +91,15 @@ function fetchData() {
 
 
 
+
+
+//? Q.6) Write an arrow function mergeArrays that takes two arrys as input and returns a new array that is the concatenation of both arrays.
+/*
+const mergeArrays = (arr1,arr2) =>{
+  return [...arr1,...arr2]
+}
+let ar1 = [1,2]
+let ar2 = [3,4]
+console.log(mergeArrays(ar1,ar2))
+
+/*
