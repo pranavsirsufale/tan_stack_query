@@ -9,7 +9,7 @@ const Header = () => {
             <NavLink to={"/"}>Hii! It's Pran</NavLink>
           </p>
 
-          <p>
+          <div>
             <ul className="nav-list">
               <li>
                 <NavLink to={"/"} style={navigator} viewTransition={true}>
@@ -31,7 +31,7 @@ const Header = () => {
                 </NavLink>
               </li>
             </ul>
-          </p>
+          </div>
         </nav>
       </section>
     </>

@@ -4,9 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 
 
 export const FetchOld = () =>{
-    // const [ posts, setPosts] = useState([])
-
-
+   
     const getPostData = async () => {
         try {   
             const res = await fetchPosts()
@@ -17,10 +15,6 @@ export const FetchOld = () =>{
         }
     }
 
-    // useEffect(()=> {
-    //     getPostData()
-    // },[])
-
 
     const{ data , isLoading, isError , error } = useQuery({
         queryKey : ['posts'],     //? useState
@@ -28,7 +22,6 @@ export const FetchOld = () =>{
         staleTime: 10000
     })
 
-    console.log(data);
 
     if ( isLoading ) return <p> Loading... </p>
     if ( isError ) return <p> Error :  { error.message || 'Something Went Wrong' } </p>
