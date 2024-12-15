@@ -32,6 +32,7 @@ setTimeout( async () => {
 
 
 //? GPT Generated >>>> 
+/*
 function fetchData() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -49,6 +50,43 @@ function fetchData() {
       console.error("Error fetching data:", error);
     });
   
+
+
+    */
+
+
+
+    // ? Q. 4) Write an arrow function groupBy() that:
+
+
+    /*
+  const an_array = [
+    { "name": "Amit", "age": 25 },{ "name": "Sanjay", "age": 25 },
+    { "name": "Rajesh", "age": 30 }, { "name": "Priya", "age": 30 },
+    { "name": "Neha", "age": 35 }
+    ]
+
+
+    const groupBy = (array, property) => {
+      return array.reduce((acc, obj) => {
+        const key = obj[property];
+        if (!acc[key]) {
+          acc[key] = []; 
+        }
+        acc[key].push(obj); 
+        return acc;
+      }, {});
+    };
+    
+
+    
+    // Group by 'age'
+    const result = groupBy(an_array, "age");
+    console.log(result);
+
+*/
+
+
 
 
 
