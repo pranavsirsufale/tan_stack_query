@@ -26,7 +26,7 @@ export const FetchRQ = () => {
           {posts.map((current) => {
             const { title, body, id } = current;
 
-            return <li key={id} >{title}</li>;
+            return <li key={id} >{body}</li>;
           })}
         </ul>
       </h1>
