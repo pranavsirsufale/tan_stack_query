@@ -6,10 +6,11 @@ import { useQuery } from "@tanstack/react-query"
 export const FetchIndu = () => {
 
     // const [ data, setData] = useState([])
+    
+    let { id } = useParams()
 
     const handleData = async () => {
-        const data = await fetchIndividualData(id)
-        console.log(data.data);
+        return await fetchIndividualData(id)
         
     }
 
@@ -18,21 +19,32 @@ export const FetchIndu = () => {
     //     handleData()
     // },[])
 
-    const {data,id} = useQuery(
+    let {data} = useQuery(
         {
             queryKey : ['fetchIndividual'], // useState
             queryFn : handleData ,      // useEffect
 
         }
     )
+    
+
     console.log(data);
+    
+   
+    
     
 
 
     return(
         <>
         <h1>
-            hellow everyone
+            {
+                data ?? <li>
+                    {
+                        data.body
+                    }
+                </li>
+            }
         </h1>
         </>
     )

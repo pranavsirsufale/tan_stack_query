@@ -14,7 +14,7 @@ export const fetchPosts = () => {
 
 //? Fetch individaul data 
 export const fetchIndividualData = (id) => {
-        return api.get(`/posts/${id}`)
+        return api.get(`/posts/${id}`).then((data)=>(data.data))
 }
 
 
