@@ -15,6 +15,11 @@ export const FetchIndu = () => {
     }
 
 
+
+
+
+    
+
     // useEffect(()=> {
     //     handleData()
     // },[])
