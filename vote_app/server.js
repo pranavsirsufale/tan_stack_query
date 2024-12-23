@@ -39,6 +39,10 @@ app.get('/',(req,res)=>{
 </html>`)
 })
 
+app.get('/chicken',(req,res)=>{
+    res.send('I would love to serve chicken')
+})
+
 
 
 
