@@ -1,7 +1,7 @@
 import express from 'express'
 const app = express()
-import dotenv from 'dotenv'
-dotenv = dotenv.config()
+// import dotenv from 'dotenv'
+// dotenv = dotenv.config()
 import bodyParser from 'body-parser'
 
 
