@@ -1,0 +1,11 @@
+voting application 
+A functionality where user can give vote to the given set of candidates 
+
+Model?
+Routes?
+
+voting app functionality
+1. user sign in / sign up
+2. see the list of candidate 
+3. vote one of the candidate, after oting, user can't vote again
+4. there is a route which shows the list of candidates and their live vote countes sorted by the ir vote countes
