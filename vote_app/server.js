@@ -6,6 +6,10 @@ import bodyParser from 'body-parser'
 
 
 
+
+
+
+
 import fs from 'fs'
 import os from 'os'
 
@@ -16,6 +20,23 @@ console.log(user.username)
 
 fs.appendFile(`greeting.txt`,`Hii~ ${user.username} , \n `,()=>{
     console.log('file is created')
+})
+
+app.get('/',(req,res)=>{
+    res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="server.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <h1> 
+        hii there ! I'am Pranav sirsufale hailing from Dr. Babasaheb Ambedkar Marathwada University. Chh. Sambhaji nagar
+    </h1>
+</body>
+</html>`)
 })
 
 
