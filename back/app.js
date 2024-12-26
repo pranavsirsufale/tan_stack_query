@@ -21,10 +21,14 @@ app.use(express.json({
     limit
 }))
 
-
+// url decoding
 app.use(express.urlencoded({extended : true, limit }))
 
+//for static file storing
 app.use(express.static('public'))
+
+// to store/access/modify cookies from browser (CRUD operation of cookies )
+app.use(cookieParser())
 
 
 
