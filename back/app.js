@@ -27,7 +27,7 @@ app.use(express.urlencoded({extended : true, limit }))
 //for static file storing
 app.use(express.static('public'))
 
-// to store/access/modify cookies from browser (CRUD operation of cookies )
+// to store/access/modify cookies (CRUD operation of cookies )
 app.use(cookieParser())
 
 
