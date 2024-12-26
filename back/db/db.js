@@ -25,7 +25,7 @@ const connectDB = async () => {
 
     try {
         const res = await mongoose.connect(db_URI);
-        console.log(res.connection.host)
+        console.log('DB HAS BEEN CONNECTED SUCCESSFULLLY :: ',res.connection.host)
     } catch (error) {
         console.log('ERROR OCCURES WHILE CONNECTING THE DB:::',error);
         process.exit(1)
