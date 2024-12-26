@@ -3,6 +3,7 @@ const app = express()
 import express from 'express'
 dotenv = dotenv.config()
 import bodyParser from 'body-parser'
+import { connectDB } from './config/db'
 
 
 
@@ -21,6 +22,8 @@ console.log(user.username)
 fs.appendFile(`greeting.txt`,`Hii~ ${user.username} , \n `,()=>{
     console.log('file is created')
 })
+
+
 
 app.get('/',(req,res)=>{
     res.send(`<!DOCTYPE html>
@@ -42,6 +45,7 @@ app.get('/',(req,res)=>{
 app.get('/chicken',(req,res)=>{
     res.send('I would love to serve chicken')
 })
+
 
 
 
