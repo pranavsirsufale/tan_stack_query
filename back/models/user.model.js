@@ -1,5 +1,5 @@
 import mongoose,{Schema} from "mongoose";
-
+import aggregatePaginate from 'mongoose-aggregate-paginate-v2';
 const userSchema = new Schema(
     {
         userName : {
@@ -48,6 +48,12 @@ const userSchema = new Schema(
     }
 )
 
-
+userSchema.plugin(aggregatePaginate)
 
 export const User = mongoose.model('User',userSchema)
+
+
+
+
+
+
