@@ -62,13 +62,52 @@ userSchema.pre('save',
 )
 
 
+
+
+/**
+ .env variables >>>
+ ACCESS_TOKEN_SECRET=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9yJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQSflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+ ACCESS_TOKEN_EXPIRY=1d
+ REFRESH_TOKEN_SECRET=iaWF0IjoxNTE2MjM5MDIyfQSflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5ceyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9yJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiw
+ REFRESH_TOKEN_EXPIRY=10d 
+ */
+
+
 userSchema.methods.isPasswordCorrect = async function(password){
     return await bcrypt.compare(password,this.password)
+}
+userSchema.methods.generateAccessToken = function(){
+    return jwt.sign({
+        _id : this._id,
+        email : this.email,
+        userName : this.userName,
+        fullName : this.fullName
+    },
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+        expiresIn : process.env.ACCESS_TOKEN_EXPIRY
+    }
+)
+}
+
+userSchema.methods.generateRefreshToken = function(){
+    return jwt.sign(
+        {
+            _id : this._id,
+            email : this.email
+        },
+        process.env.REFRESH_TOKEN_SECRET,
+        {
+            expiresIn : process.env.REFRESH_TOKEN_EXPIRY
+        }
+    )
 }
 
 
 // userSchema.plugin(aggregatePaginate)
 export const User = mongoose.model('User',userSchema)
+
+
 
 
 
