@@ -36,11 +36,17 @@ app.use(cookieParser())
 
 const PORT = process.env.PORT || 3000;
 
+import userRouter from './routes/user.routes.js';
+
+// routes declaration 
+// localhost:3000//api/v1/users/register
+app.use('/api/v1/users',userRouter)
 
 
-app.get('/',(req,res)=>{
-    res.send('hellow world')
-})
+
+// app.get('/',(req,res)=>{
+//     res.send('hellow world')
+// })
 
 
 
