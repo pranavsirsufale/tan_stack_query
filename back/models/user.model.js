@@ -62,6 +62,10 @@ userSchema.pre('save',
 )
 
 
+userSchema.methods.isPasswordCorrect = async function(password){
+    return await bcrypt.compare(password,this.password)
+}
+
 
 // userSchema.plugin(aggregatePaginate)
 export const User = mongoose.model('User',userSchema)
