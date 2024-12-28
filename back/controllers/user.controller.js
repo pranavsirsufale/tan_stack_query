@@ -7,13 +7,13 @@ import {
 import { User } from "../models/user.model.js";
 
 const generateRefreshAndAccessToken = async (userId) => {
-    let user = await User.findById(userId)
-    const accessToken = await user.generateAccessToken()
-    const refreshToekn = await user.generateRefreshToken()
+    let user = await User.findById(userId);
+    const accessToken = await user.generateAccessToken();
+    const refreshToekn = await user.generateRefreshToken();
     user.refreshToekn = refreshToekn;
-    user = await user.save({ validateBeforeSave : false})
-    return { accessToken , refreshToekn}
-}
+    user = await user.save({ validateBeforeSave: false });
+    return { accessToken, refreshToekn };
+};
 
 const registerUser = asyncHandler(async (req, res) => {
     //    console.log(req)
@@ -53,7 +53,6 @@ const registerUser = asyncHandler(async (req, res) => {
     if (coverImageLocalPath) {
         coverImage = await uploadOnCloudinary(coverImageLocalPath);
     }
-
     const user = await User.create({
         fullName,
         avatar: avatar.url,
@@ -62,11 +61,9 @@ const registerUser = asyncHandler(async (req, res) => {
         password,
         userName: userName.toLowerCase(),
     });
-
     const UserCreated = await User.findById(user._id).select(
         "-password -refreshToken"
     );
-
     if (!UserCreated) {
         throw new ApiError(
             500,
@@ -74,15 +71,12 @@ const registerUser = asyncHandler(async (req, res) => {
             "something went wrong while uploaidng from the server "
         );
     }
-
     res.status(200).json(
         new ApiResponse(200, UserCreated, "user created successfully")
     );
 });
-
 const loginUser = asyncHandler(async (req, res) => {
     const { userName, email, password } = req.body;
-
     if (!userName && !email)
         throw new ApiError(
             400,
@@ -92,56 +86,48 @@ const loginUser = asyncHandler(async (req, res) => {
     const user = await User.findOne({
         $or: [{ userName }, { email }],
     });
-
-
-    
-    if ( !user ){
-        throw new ApiError(404, 'User does not exist','User does not exist')
+    if (!user) {
+        throw new ApiError(404, "User does not exist", "User does not exist");
     }
-
     const isPassCorrect = await user.isPasswordCorrect(password);
 
-
-    if (!isPassCorrect){
+    if (!isPassCorrect) {
         throw new ApiError(
             400,
             "Enter a valid password",
             "you have entered a wrong password"
         );
     }
-        
-
-    
-    const { refreshToekn , accessToken } = await generateRefreshAndAccessToken(user._id)
-
-    user.password = ''
-
-
-    // send cookies 
+    const { refreshToekn, accessToken } = await generateRefreshAndAccessToken(
+        user._id
+    );
+    user.password = "";
+    // send cookies
     const options = {
-        httpOnly : true,
-        secure : true
-    }    
-
-
-    user.accessToken = accessToken
-
-    
-
-    res
-    .status(200)
-    .cookie("accessToken",accessToken,options)
-    .cookie('refreshToken',refreshToekn,options)
-    .json(new ApiResponse(200, 
-        {
-            user : user,accessToken,refreshToekn
-        }
-        , "Logged in Successfully"));
- 
-
+        httpOnly: true,
+        secure: true,
+    };
+    user.accessToken = accessToken;
+    res.status(200)
+        .cookie("accessToken", accessToken, options)
+        .cookie("refreshToken", refreshToekn, options)
+        .json(
+            new ApiResponse(
+                200,
+                {
+                    user: user,
+                    accessToken,
+                    refreshToekn,
+                },
+                "Logged in Successfully"
+            )
+        );
 });
 
 
+const logoutUser = asyncHandler( async (req,res)=> {
+    const cookies = req.cookie
+    console.log(cookies)
+})
 
-
-export { registerUser, loginUser };
+export { registerUser, loginUser , logoutUser };
