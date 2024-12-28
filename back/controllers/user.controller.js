@@ -126,8 +126,16 @@ const loginUser = asyncHandler(async (req, res) => {
 
 
 const logoutUser = asyncHandler( async (req,res)=> {
-    const cookies = req.cookie
-    console.log(cookies)
+    const cookies = req.cookies
+    res
+    .status(200)
+    .json(
+        
+        new ApiResponse(
+            200,
+            cookies
+        )
+    )
 })
 
 export { registerUser, loginUser , logoutUser };
