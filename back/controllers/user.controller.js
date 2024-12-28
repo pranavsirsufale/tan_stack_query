@@ -10,8 +10,7 @@ const registerUser = asyncHandler(async (req, res) => {
     //    console.log(req)
 
     const { fullName, email, userName, password } = req.body;
-
-   
+    // console.log(req.files)
 
     if (
         [fullName, email, userName, password].some(
@@ -20,8 +19,6 @@ const registerUser = asyncHandler(async (req, res) => {
     ) {
         throw new ApiError(400, " All fields are required");
     }
-
-  
 
     const existinguser = await User.findOne({
         $or: [{ userName }, { email }],
@@ -35,11 +32,15 @@ const registerUser = asyncHandler(async (req, res) => {
     const coverImageLocalPath = req.files?.coverImage[0]?.path;
 
     if (!avatarLocalPath) {
-        throw new ApiError(400, "Abatar file is required",'abatar file is required ');
+        throw new ApiError(
+            400,
+            "Abatar file is required",
+            "abatar file is required "
+        );
     }
 
     const avatar = await uploadOnCloudinary(avatarLocalPath);
-    let coverImage = ''
+    let coverImage = "";
     if (coverImageLocalPath) {
         coverImage = await uploadOnCloudinary(coverImageLocalPath);
     }
@@ -61,44 +62,41 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new ApiError(
             500,
             "something went wrong while uploading from server",
-            'something went wrong while uploaidng from the server '
+            "something went wrong while uploaidng from the server "
         );
     }
 
-    res
-        .status(200)
-        .json(new ApiResponse(200, UserCreated, "user created successfully", ));
+    res.status(200).json(
+        new ApiResponse(200, UserCreated, "user created successfully")
+    );
+});
+
+const loginUser = asyncHandler(async (req, res) => {
+    const { userName, email, password } = req.body;
+    if (!userName && !email)
+        throw new ApiError(
+            400,
+            "please enter email or userName ",
+            "Please enter email or userName"
+        );
+    const user = await User.findOne({
+        $or: [{ userName }, { email }],
+    });
+
+    const isPassCorrect = await user.isPasswordCorrect(password);
+    user["password"] = "";
+
+    if (!isPassCorrect)
+        throw new ApiError(
+            400,
+            "Enter a valid password",
+            "you have entered a wrong password"
+        );
+
+    res.status(200).json(new ApiResponse(200, user, "Logged in Successfully"));
 });
 
 
-const loginUser = asyncHandler( async (req,res) => {
-    const { userName , email , password } = req.body;
 
 
-    if ( !userName && !email ) throw new ApiError(400, 'please enter email or userName ','Please enter email or userName')
-
-    const user = await User.findOne({
-        $or : [{userName},{email}]
-    })
-
-    const isPassCorrect = await user.isPasswordCorrect(password)
-    user['password'] = ''
-
-    if ( !isPassCorrect ) throw new ApiError(400,'Enter a valid password','you have entered a wrong password')
-
-    res
-    .status(200)
-    .json(
-        new ApiResponse(
-            200,
-            user,
-            'Logged in Successfully'
-        )
-    )
-
-
-
-
-
-}) 
-export { registerUser , loginUser };
+export { registerUser, loginUser };
