@@ -73,33 +73,18 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const loginUser = asyncHandler( async (req,res) => {
     const { userName , email , password } = req.body;
-    console.log(req.body)
-    console.log(req.body)
-    console.log(req.body)
-    console.log(req.body)
-    console.log(req.body)
-    console.log(req.body)
+
 
     if ( !userName && !email ) throw new ApiError(400, 'please enter email or userName ','Please enter email or userName')
-
-    console.log(userName)
-    console.log(email)
-    console.log(password) 
-
 
     const user = await User.findOne({
         $or : [{userName},{email}]
     })
 
     const isPassCorrect = await user.isPasswordCorrect(password)
+    user['password'] = ''
 
     if ( !isPassCorrect ) throw new ApiError(400,'Enter a valid password','you have entered a wrong password')
-
-
-    
-
-
-
 
     res
     .status(200)
