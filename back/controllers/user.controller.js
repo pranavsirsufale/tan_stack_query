@@ -10,11 +10,8 @@ const generateRefreshAndAccessToken = async (userId) => {
     let user = await User.findById(userId)
     const accessToken = await user.generateAccessToken()
     const refreshToekn = await user.generateRefreshToken()
-
     user.refreshToekn = refreshToekn;
-
     user = await user.save({ validateBeforeSave : false})
-    
     return { accessToken , refreshToekn}
 }
 
@@ -86,8 +83,6 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
     const { userName, email, password } = req.body;
 
-
-
     if (!userName && !email)
         throw new ApiError(
             400,
@@ -98,7 +93,6 @@ const loginUser = asyncHandler(async (req, res) => {
         $or: [{ userName }, { email }],
     });
 
- 
 
     
     if ( !user ){
@@ -107,7 +101,6 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const isPassCorrect = await user.isPasswordCorrect(password);
 
-    // user["password"] = "";
 
     if (!isPassCorrect){
         throw new ApiError(
@@ -118,30 +111,32 @@ const loginUser = asyncHandler(async (req, res) => {
     }
         
 
-   
-
-    // const updated_user = await User.findByIdAndUpdate(
-    
-    //        user._id,
-       
-    //     {
-    //         refreshToken : refreshToekn
-    //     }
-    // )
     
     const { refreshToekn , accessToken } = await generateRefreshAndAccessToken(user._id)
 
+    user.password = ''
+
 
     // send cookies 
+    const options = {
+        httpOnly : true,
+        secure : true
+    }    
+
+
     user.accessToken = accessToken
 
     
 
-   
-
-
-
-    res.status(200).json(new ApiResponse(200, user, "Logged in Successfully"));
+    res
+    .status(200)
+    .cookie("accessToken",accessToken,options)
+    .cookie('refreshToken',refreshToekn,options)
+    .json(new ApiResponse(200, 
+        {
+            user : user,accessToken,refreshToekn
+        }
+        , "Logged in Successfully"));
  
 
 });
