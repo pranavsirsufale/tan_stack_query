@@ -5,8 +5,7 @@ import {
     uploadOnCloudinary,
 } from "../utils/index.js";
 import { User } from "../models/user.model.js";
-import jwt from 'jsonwebtoken'
-
+import jwt from "jsonwebtoken";
 
 const generateRefreshAndAccessToken = async (userId) => {
     let user = await User.findById(userId);
@@ -125,38 +124,32 @@ const loginUser = asyncHandler(async (req, res) => {
             )
         );
 });
-
-
-const logoutUser = asyncHandler( async (req,res)=> {
-    const user = req.user;  
-
+const logoutUser = asyncHandler(async (req, res) => {
+    const user = req.user;
     User.findByIdAndUpdate(
         req.user._id,
         {
             $set: {
-                refreshToekn : undefined
+                refreshToekn: undefined,
             },
         },
-        { 
-            new : true
+        {
+            new: true,
         }
-    )
-
+    );
     const options = {
-        httpOnly : true,
-        secure : true
-    }
-
+        httpONly: true,
+        secure: true,
+    };
     return res
-    .status(200)
-    .clearCookie('accessToken',options)
-    .clearCookie('refreshToken',options)
-    .json(
-        new ApiResponse(
-            200,
-            "User has been logged out successfully",
-        )
-    )
-})
+        .status(200)
+        .clearCookie("accessToken", options)
+        .clearCookie("refreshToken", options)
+        .json(new ApiResponse(200, "User has been logged out successfully"));
+});
 
-export { registerUser, loginUser , logoutUser };
+
+
+
+
+export { registerUser, loginUser, logoutUser };
