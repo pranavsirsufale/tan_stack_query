@@ -4,8 +4,6 @@ const storage = multer.diskStorage({
         callBackFunction(null, "./public/temp");
     },
     filename: function (req, file, callBackFunction) {
-        callBackFunction(null, file.originalname);
-        console.log("FROM MULTER FILENAME FUNCTION : ::", file);
-    },
+        callBackFunction(null, file.originalname);},
 });
 export const upload = multer({ storage });
