@@ -7,6 +7,7 @@ import {
 import { User } from "../models/user.model.js";
 import jwt from 'jsonwebtoken'
 
+
 const generateRefreshAndAccessToken = async (userId) => {
     let user = await User.findById(userId);
     const accessToken = await user.generateAccessToken();
