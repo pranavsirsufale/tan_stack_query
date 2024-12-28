@@ -15,7 +15,6 @@ const generateRefreshAndAccessToken = async (userId) => {
     user = await user.save({ validateBeforeSave: false });
     return { accessToken, refreshToekn };
 };
-
 const registerUser = asyncHandler(async (req, res) => {
     //    console.log(req)
 
@@ -149,6 +148,62 @@ const logoutUser = asyncHandler(async (req, res) => {
 });
 
 
+
+
+
+
+
+
+
+const refreshAccessToken = asyncHandler( async (req,res)=> {
+    const incomeingRefreshToken = req.cookies.refreshToken || req.header('Authorization')?.replace('Bearer ','')
+
+    if(!incomeingRefreshToken) {
+        throw new ApiError(
+            401,
+            "Unauthorized Reqeust"
+        )
+    }
+
+    const decodedToken = jwt.verify(incomeingRefreshToken,process.env.REFRESH_TOKEN_SECRET)
+
+    const user = await User.findById(decodedToken?._id).select('-password')
+
+    if(!user){
+        throw new ApiError(401,
+            "Invalid refresh token"
+        )
+    }
+
+    if(incomeingRefreshToken !== user?.refreshToken){
+        throw new ApiError(401,
+            "Invalid Refresh Token"
+        )
+    }
+
+    const { refreshToekn , accessToken } = await generateRefreshAndAccessToken(user._id)
+    
+
+    const options = {
+        httpOnly : true,
+        secrure : true
+    }
+
+    res
+    .status(200)
+    .cookie('refreshToken',refreshToekn,options)
+    .cookie('accessToken',accessToken,options)
+    .json(
+        new ApiResponse(
+            200,
+            {
+                accessToken,refreshToekn,user
+            }
+        )
+    )
+
+
+})
 
 
 
