@@ -7,11 +7,14 @@ import {
 import { User } from "../models/user.model.js";
 
 const generateRefreshAndAccessToken = async (userId) => {
-    const user = await User.findById({userId})
+    let user = await User.findById(userId)
     const accessToken = await user.generateAccessToken()
     const refreshToekn = await user.generateRefreshToken()
+
     user.refreshToekn = refreshToekn;
-    await user.save({ validateBeforeSave : false})
+
+    user = await user.save({ validateBeforeSave : false})
+    
     return { accessToken , refreshToekn}
 }
 
@@ -99,11 +102,10 @@ const loginUser = asyncHandler(async (req, res) => {
 
     
     if ( !user ){
-        throw new ApiError(404, 'User does not exist')
+        throw new ApiError(404, 'User does not exist','User does not exist')
     }
 
     const isPassCorrect = await user.isPasswordCorrect(password);
-    console.log(isPassCorrect)
 
     // user["password"] = "";
 
@@ -131,7 +133,11 @@ const loginUser = asyncHandler(async (req, res) => {
 
 
     // send cookies 
-    user[accessToken] = accessToken
+    user.accessToken = accessToken
+
+    
+
+   
 
 
 
