@@ -128,19 +128,33 @@ const loginUser = asyncHandler(async (req, res) => {
 
 
 const logoutUser = asyncHandler( async (req,res)=> {
-    const token = req.cookies?.accessToken || req.header('Authorization')?.replace('Bearer ','')
+    const user = req.user;  
 
- 
+    User.findByIdAndUpdate(
+        req.user._id,
+        {
+            $set: {
+                refreshToekn : undefined
+            },
+        },
+        { 
+            new : true
+        }
+    )
 
+    const options = {
+        httpOnly : true,
+        secure : true
+    }
 
-
-    res
+    return res
     .status(200)
+    .clearCookie('accessToken',options)
+    .clearCookie('refreshToken',options)
     .json(
-        
         new ApiResponse(
             200,
-            token
+            "User has been logged out successfully",
         )
     )
 })
