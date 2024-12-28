@@ -6,6 +6,15 @@ import {
 } from "../utils/index.js";
 import { User } from "../models/user.model.js";
 
+const generateRefreshAndAccessToken = async (userId) => {
+    const user = await User.findById({userId})
+    const accessToken = await user.generateAccessToken()
+    const refreshToekn = await user.generateRefreshToken()
+    user.refreshToekn = refreshToekn;
+    await user.save({ validateBeforeSave : false})
+    return { accessToken , refreshToekn}
+}
+
 const registerUser = asyncHandler(async (req, res) => {
     //    console.log(req)
 
@@ -73,6 +82,9 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const loginUser = asyncHandler(async (req, res) => {
     const { userName, email, password } = req.body;
+
+
+
     if (!userName && !email)
         throw new ApiError(
             400,
@@ -83,17 +95,49 @@ const loginUser = asyncHandler(async (req, res) => {
         $or: [{ userName }, { email }],
     });
 
-    const isPassCorrect = await user.isPasswordCorrect(password);
-    user["password"] = "";
+ 
 
-    if (!isPassCorrect)
+    
+    if ( !user ){
+        throw new ApiError(404, 'User does not exist')
+    }
+
+    const isPassCorrect = await user.isPasswordCorrect(password);
+    console.log(isPassCorrect)
+
+    // user["password"] = "";
+
+    if (!isPassCorrect){
         throw new ApiError(
             400,
             "Enter a valid password",
             "you have entered a wrong password"
         );
+    }
+        
+
+   
+
+    // const updated_user = await User.findByIdAndUpdate(
+    
+    //        user._id,
+       
+    //     {
+    //         refreshToken : refreshToekn
+    //     }
+    // )
+    
+    const { refreshToekn , accessToken } = await generateRefreshAndAccessToken(user._id)
+
+
+    // send cookies 
+    user[accessToken] = accessToken
+
+
 
     res.status(200).json(new ApiResponse(200, user, "Logged in Successfully"));
+ 
+
 });
 
 
