@@ -3,6 +3,7 @@ import {
     ApiResponse,
     asyncHandler,
     uploadOnCloudinary,
+    deleteFromCloudinary
 } from "../utils/index.js";
 import { User } from "../models/user.model.js";
 import jwt from "jsonwebtoken";
@@ -294,8 +295,17 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
         );
     }
 
+    // remove the old avatar 
+    const isRemoved = await deleteFromCloudinary(req.user?.avatar)
+
+
     res.status(200).json(
-        new ApiResponse(200, user, "User Avatar has been updated successfully")
+        new ApiResponse(200, 
+            {
+                user,
+                removedOld : isRemoved
+            }
+            , "User Avatar has been updated successfully")
     );
 });
 

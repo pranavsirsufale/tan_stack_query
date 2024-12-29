@@ -24,4 +24,33 @@ const uploadOnCloudinary = async (localFilePath) => {
     }
 };
 
-export { uploadOnCloudinary };
+const getPublicId = (url) => {
+    const regex = /\/upload\/(?:v\d+\/)?([^\/]+)\.\w+$/;
+    const match = url.match(regex);
+    const publicId =  match ? match[1] : null;
+    return publicId
+    }
+const deleteFromCloudinary = async (url) => {
+
+    try {
+        // extracting public id from the url
+        const publicId = getPublicId(url)
+
+        // got unique public id to remove 
+        const response = await cloudinary.uploader.destroy(publicId,{resource_type: "auto"})
+
+        console.log(response)
+
+        if( response?.result === "ok"){
+            return true
+        }
+
+
+    } catch (error) {
+        console.log('error occured while removing the file from cloudinary')
+    }
+
+
+}
+
+export { uploadOnCloudinary, deleteFromCloudinary };
