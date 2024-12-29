@@ -316,6 +316,51 @@ const updateUserAvatar = asyncHandler(async ( req,res)=> {
 
     const avatarLocalPath = req.file?.path;
 
+    if(!avatarLocalPath){
+        throw new ApiError(
+            400,
+            "file not found",
+        )
+    }
+
+    const cloudinaryResponse = await uploadOnCloudinary(avatarLocalPath)
+
+    
+
+    if(!cloudinaryResponse){
+        throw new ApiError(
+            500,
+            'could not upload the file , something went wrong'
+        )
+    }
+
+    const user = await User.findByIdAndUpdate(req.user?._id,{
+        $set:{
+            avatar : cloudinaryResponse.url
+        }
+    },
+    {
+        new: true
+    }
+).select('-password')
+
+if(!user){
+    throw new ApiError(
+        500,
+        'something went wrong while updating in database'
+    )
+}
+
+
+res
+.status(200)
+.json(
+    new ApiResponse(
+        200,
+        user,
+        "User Avatar has been updated successfully"
+    )
+)
 
 
 

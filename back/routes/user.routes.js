@@ -38,7 +38,7 @@ router.route('/chnage/password')
 
 router.route('/change/avatar')
 .patch(
-    upload.single("avatar"),
+    upload.single("avatar"),verifyJWT,
     updateUserAvatar
 )
 
