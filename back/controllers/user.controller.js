@@ -205,16 +205,13 @@ const refreshAccessToken = asyncHandler( async (req,res)=> {
 const changeCurrentPassword = asyncHandler( async ( req,res) => {
     const { oldPassword , newPassword  } = req.body;
     const userId = req.user?._id;
-
     if(!userId){
         throw new ApiError(
             401,
             "Unauthorized access"
         )
     }
-
     const user = await User.findById(userId);
-
     const isPasswordCorrecct = await user.isPasswordCorrect(oldPassword)
 
     if(!isPasswordCorrecct) {
@@ -223,37 +220,25 @@ const changeCurrentPassword = asyncHandler( async ( req,res) => {
             "You have entered a wrong password"
         )
     }
-
-    const updated = await User.findByIdAndUpdate(user._id,
-        {
-            $set:{
-                password : newPassword
-            }
-        }
-    )
-
+    
+    user.password = password 
+    await user.save({validateBeforeSave: false})
+    
     if(!updated){
         throw new ApiError(
             500,
             "something went wrong while updating password,!!!! Internal server error"
         )
     }
-
-
     res
     .status(200)
     .json(
         new ApiResponse(
             200,
-            "Password has been changed successfully"
+            "Password has been changed successfully",
+            "password changed successfully"
         )
     )
-
-
-
-
-
-
 })
 
 
@@ -265,6 +250,21 @@ const changeCurrentPassword = asyncHandler( async ( req,res) => {
 
 
 
+
+const getCurrentUser = asyncHandler( async (req,res)=>{
+
+
+
+
+
+
+
+
+
+
+
+    
+})
 
 
 
