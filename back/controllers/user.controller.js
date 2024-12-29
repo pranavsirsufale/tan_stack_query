@@ -252,18 +252,51 @@ const changeCurrentPassword = asyncHandler( async ( req,res) => {
 
 
 const getCurrentUser = asyncHandler( async (req,res)=>{
-
-
-
-
-
-
-
-
+    const userId = req.user?._id;
+    if(!userId){
+        throw new ApiError(
+            400,
+            "Unauthorized access",
+            "Invalid Credentials"
+        )
+    }
 
 
 
     
+    const user = await User.findById(userId).select('-password')
+
+
+
+
+    if(!user){
+        throw new ApiError(
+            500,
+            'Someting went wrong while doing database call',
+            'error occured while making Database call'
+        )
+    }
+
+
+
+
+
+
+
+
+
+    res
+    .status(200)
+    .json(
+        new ApiResponse(
+            200,
+            user
+        )
+    )
+
+
+
+
 })
 
 
