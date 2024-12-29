@@ -252,49 +252,50 @@ const changeCurrentPassword = asyncHandler( async ( req,res) => {
 
 
 const getCurrentUser = asyncHandler( async (req,res)=>{
-    const userId = req.user?._id;
-    if(!userId){
-        throw new ApiError(
-            400,
-            "Unauthorized access",
-            "Invalid Credentials"
-        )
-    }
-
-
-
-    
-    const user = await User.findById(userId).select('-password')
-
-
-
-
-    if(!user){
-        throw new ApiError(
-            500,
-            'Someting went wrong while doing database call',
-            'error occured while making Database call'
-        )
-    }
-
-
-
-
-
-
-
-
-
     res
     .status(200)
     .json(
         new ApiResponse(
             200,
-            user
+            req.user,
+            "User fetched Successfully"
         )
     )
+})
+
+const updateAccountDetails = asyncHandler(async (req,res)=> {
+
+    const {fullName , email} = req.body;
+    
+    if(!fullName && !email) {
+        throw new ApiError(
+            400,
+            " enter the fullname or email"
+        )
+    }
+
+    const updatatedUser = await User.findByIdAndUpdate(req.user?._id,{
+       $set: {
+        fullName,
+        email
+       }
+    },
+    {
+        new : true
+    }
+    ).select("-password")
 
 
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(
+            200,
+            updatatedUser,
+            'User Details has been updated Successfully'
+        )
+    )
 
 
 })
@@ -304,4 +305,5 @@ const getCurrentUser = asyncHandler( async (req,res)=>{
 
 
 
-export { registerUser, loginUser, logoutUser ,refreshAccessToken,changeCurrentPassword };
+
+export { registerUser, loginUser, logoutUser ,refreshAccessToken,changeCurrentPassword ,getCurrentUser,updateAccountDetails,};
