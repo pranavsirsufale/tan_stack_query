@@ -306,4 +306,32 @@ const updateAccountDetails = asyncHandler(async (req,res)=> {
 
 
 
-export { registerUser, loginUser, logoutUser ,refreshAccessToken,changeCurrentPassword ,getCurrentUser,updateAccountDetails,};
+
+
+
+
+
+
+const updateUserAvatar = asyncHandler(async ( req,res)=> {
+
+    const localFilePath = req.file?.path;
+    
+
+
+
+
+
+
+})
+
+
+
+
+
+
+
+
+
+
+
+export { registerUser, loginUser, logoutUser ,refreshAccessToken,changeCurrentPassword ,getCurrentUser,updateAccountDetails,updateUserAvatar};
