@@ -1,6 +1,6 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Router } from 'express'
-import { registerUser ,loginUser,logoutUser,refreshAccessToken, changeCurrentPassword} from "../controllers/user.controller.js";
+import { registerUser ,loginUser,logoutUser,refreshAccessToken, changeCurrentPassword, updateUserAvatar} from "../controllers/user.controller.js";
 import { upload } from '../middlwares/multer.middleware.js'
 import { verifyJWT } from '../middlwares/auth.middleware.js'
 const router = Router()
@@ -33,6 +33,14 @@ router.route("/refresh-token")
 // change the password
 router.route('/chnage/password')
 .patch(verifyJWT,changeCurrentPassword)
+
+
+
+router.route('/change/avatar')
+.patch(
+    upload.single("avatar"),
+    updateUserAvatar
+)
 
 
 export default router

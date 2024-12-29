@@ -314,8 +314,8 @@ const updateAccountDetails = asyncHandler(async (req,res)=> {
 
 const updateUserAvatar = asyncHandler(async ( req,res)=> {
 
-    const localFilePath = req.file?.path;
-    
+    const avatarLocalPath = req.file?.path;
+
 
 
 
