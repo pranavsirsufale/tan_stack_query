@@ -202,6 +202,59 @@ const refreshAccessToken = asyncHandler( async (req,res)=> {
 
 
 
+const changeCurrentPassword = asyncHandler( async ( req,res) => {
+    const { oldPassword , newPassword  } = req.body;
+    const userId = req.user?._id;
+
+    if(!userId){
+        throw new ApiError(
+            401,
+            "Unauthorized access"
+        )
+    }
+
+    const user = await User.findById(userId);
+
+    const isPasswordCorrecct = await user.isPasswordCorrect(oldPassword)
+
+    if(!isPasswordCorrecct) {
+        throw new ApiError(
+            400,
+            "You have entered a wrong password"
+        )
+    }
+
+    const updated = await User.findByIdAndUpdate(user._id,
+        {
+            $set:{
+                password : newPassword
+            }
+        }
+    )
+
+    if(!updated){
+        throw new ApiError(
+            500,
+            "something went wrong while updating password,!!!! Internal server error"
+        )
+    }
+
+
+    res
+    .status(200)
+    .json(
+        new ApiResponse(
+            200,
+            "Password has been changed successfully"
+        )
+    )
+
+
+
+
+
+
+})
 
 
 
@@ -218,5 +271,4 @@ const refreshAccessToken = asyncHandler( async (req,res)=> {
 
 
 
-
-export { registerUser, loginUser, logoutUser ,refreshAccessToken };
+export { registerUser, loginUser, logoutUser ,refreshAccessToken,changeCurrentPassword };
